@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Dimensions} from 'react-native';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -24,7 +24,8 @@ const Numeric_Key = props => (
         justifyContent: 'center',
         borderRadius: 15,
         flex: 1,
-      }}>
+      }}
+      onPress={props.onPress}>
       <Text
         style={{
           fontSize: props.fontSize,
@@ -37,6 +38,36 @@ const Numeric_Key = props => (
 );
 
 const App = () => {
+  const [num1, setNum1] = useState('');
+  const [num2, setNum2] = useState('');
+  const [operator, setOperator] = useState('');
+  const [result, setResult] = useState('');
+
+  const setValidOperator = op => {
+    if (num1 != '') setOperator(op);
+  };
+
+  const setValidNumber = num => {
+    if (operator == '') setNum1(num1 + num);
+    else setNum2(num2 + num);
+  };
+
+  const reset = () => {
+    setNum1('');
+    setNum2('');
+    setOperator('');
+    setResult('');
+  };
+
+  const calculate = () => {
+    if (num1 != '' && num2 != '' && operator != '') {
+      if (operator == '+') setResult(Number(num1) + Number(num2));
+      else if (operator == '-') setResult(Number(num1) - Number(num2));
+      else if (operator == '*') setResult(Number(num1) * Number(num2));
+      else if (operator == '/') setResult(Number(num1) / Number(num2));
+    }
+  };
+
   return (
     <SafeAreaView style={{backgroundColor: '#22252d', flex: 1}}>
       <View
@@ -52,7 +83,7 @@ const App = () => {
               color: 'white',
               fontSize: 22,
             }}>
-            308
+            {num1}
           </Text>
           <View
             style={{
@@ -63,7 +94,7 @@ const App = () => {
               color: '#F37A7A',
               fontSize: 22,
             }}>
-            *
+            {operator}
           </Text>
           <View
             style={{
@@ -74,10 +105,10 @@ const App = () => {
               color: 'white',
               fontSize: 22,
             }}>
-            48
+            {num2}
           </Text>
         </View>
-        <Text style={{color: 'white', fontSize: 40}}>12,936</Text>
+        <Text style={{color: 'white', fontSize: 40}}>{result}</Text>
       </View>
       <View
         style={{
@@ -89,30 +120,94 @@ const App = () => {
           justifyContent: 'center',
         }}>
         <View style={styles.keyRows}>
-          <Numeric_Key text="AC" color="#26E3C1" fontSize={20}></Numeric_Key>
-          <Numeric_Key text="+" color="#F37A7A" fontSize={35}></Numeric_Key>
+          <Numeric_Key
+            text="AC"
+            color="#26E3C1"
+            fontSize={20}
+            onPress={reset}></Numeric_Key>
+          <Numeric_Key
+            text="+"
+            color="#F37A7A"
+            fontSize={35}
+            onPress={() => setValidOperator('+')}></Numeric_Key>
         </View>
         <View style={styles.keyRows}>
-          <Numeric_Key text="7" color="white" fontSize={20}></Numeric_Key>
-          <Numeric_Key text="8" color="white" fontSize={20}></Numeric_Key>
-          <Numeric_Key text="9" color="white" fontSize={20}></Numeric_Key>
-          <Numeric_Key text="-" color="#F37A7A" fontSize={35}></Numeric_Key>
+          <Numeric_Key
+            text="7"
+            color="white"
+            fontSize={20}
+            onPress={() => setValidNumber('7')}></Numeric_Key>
+          <Numeric_Key
+            text="8"
+            color="white"
+            fontSize={20}
+            onPress={() => setValidNumber('8')}></Numeric_Key>
+          <Numeric_Key
+            text="9"
+            color="white"
+            fontSize={20}
+            onPress={() => setValidNumber('9')}></Numeric_Key>
+          <Numeric_Key
+            text="-"
+            color="#F37A7A"
+            fontSize={35}
+            onPress={() => setValidOperator('-')}></Numeric_Key>
         </View>
         <View style={styles.keyRows}>
-          <Numeric_Key text="4" color="white" fontSize={20}></Numeric_Key>
-          <Numeric_Key text="5" color="white" fontSize={20}></Numeric_Key>
-          <Numeric_Key text="6" color="white" fontSize={20}></Numeric_Key>
-          <Numeric_Key text="*" color="#F37A7A" fontSize={35}></Numeric_Key>
+          <Numeric_Key
+            text="4"
+            color="white"
+            fontSize={20}
+            onPress={() => setValidNumber('4')}></Numeric_Key>
+          <Numeric_Key
+            text="5"
+            color="white"
+            fontSize={20}
+            onPress={() => setValidNumber('5')}></Numeric_Key>
+          <Numeric_Key
+            text="6"
+            color="white"
+            fontSize={20}
+            onPress={() => setValidNumber('6')}></Numeric_Key>
+          <Numeric_Key
+            text="*"
+            color="#F37A7A"
+            fontSize={35}
+            onPress={() => setValidOperator('*')}></Numeric_Key>
         </View>
         <View style={styles.keyRows}>
-          <Numeric_Key text="1" color="white" fontSize={20}></Numeric_Key>
-          <Numeric_Key text="2" color="white" fontSize={20}></Numeric_Key>
-          <Numeric_Key text="3" color="white" fontSize={20}></Numeric_Key>
-          <Numeric_Key text="/" color="#F37A7A" fontSize={35}></Numeric_Key>
+          <Numeric_Key
+            text="1"
+            color="white"
+            fontSize={20}
+            onPress={() => setValidNumber('1')}></Numeric_Key>
+          <Numeric_Key
+            text="2"
+            color="white"
+            fontSize={20}
+            onPress={() => setValidNumber('2')}></Numeric_Key>
+          <Numeric_Key
+            text="3"
+            color="white"
+            fontSize={20}
+            onPress={() => setValidNumber('3')}></Numeric_Key>
+          <Numeric_Key
+            text="/"
+            color="#F37A7A"
+            fontSize={35}
+            onPress={() => setValidOperator('/')}></Numeric_Key>
         </View>
         <View style={styles.keyRows}>
-          <Numeric_Key text="0" color="white" fontSize={20}></Numeric_Key>
-          <Numeric_Key text="=" color="#00B0FF" fontSize={35}></Numeric_Key>
+          <Numeric_Key
+            text="0"
+            color="white"
+            fontSize={20}
+            onPress={() => setValidNumber('0')}></Numeric_Key>
+          <Numeric_Key
+            text="="
+            color="#00B0FF"
+            fontSize={35}
+            onPress={calculate}></Numeric_Key>
         </View>
       </View>
     </SafeAreaView>
